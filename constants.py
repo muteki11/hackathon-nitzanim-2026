@@ -1,0 +1,12 @@
+
+
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+SCREEN_TITLE = "Python Z-Type Clone"
+
+WORD_BANK = ["Python", "ARCADE", "CODING", "GAMEDEV", "COMPUTER", "ALGORITHM", "CYBER"]
+
+
+
+
+
