@@ -1,6 +1,8 @@
 import arcade
 import arcade.gui
+from arcade.gui import UITextureButton
 from constants import *
+
 
 class Topic_choice(arcade.View):
     def __init__(self):
@@ -10,7 +12,13 @@ class Topic_choice(arcade.View):
         
         
         #NOTE: BACK BUTTON
-        back_button = arcade.gui.UIFlatButton(text="Back", width=200, height=60)
+        back_button = UITextureButton(
+            text="BACK",
+            width=200,
+            texture=TEX_RED_BUTTON_NORMAL,
+            texture_hovered=TEX_RED_BUTTON_HOVER,
+            texture_pressed=TEX_RED_BUTTON_PRESS,
+        )
         back_button.center_x = 120
         back_button.center_y = 100
         back_button.on_click = self.change_to_menu
@@ -18,21 +26,39 @@ class Topic_choice(arcade.View):
         
 
         #NOTE: MATH BUTTON  
-        math_button = arcade.gui.UIFlatButton(text="Mathematics", width=200, height=60)
+        math_button = UITextureButton(
+            text="MATHEMATICS",
+            width=200,
+            texture=TEX_RED_BUTTON_NORMAL,
+            texture_hovered=TEX_RED_BUTTON_HOVER,
+            texture_pressed=TEX_RED_BUTTON_PRESS,
+        )
         math_button.center_x = 120
         math_button.center_y = 330
         math_button.on_click = self.change_to_game_math
         self.manager.add(math_button)
         
         #NOTE: PHYSICS BUTTON
-        physics_button = arcade.gui.UIFlatButton(text="Physics", width=200, height=60)
+        physics_button = UITextureButton(
+            text="PHYSICS",
+            width=200,
+            texture=TEX_RED_BUTTON_NORMAL,
+            texture_hovered=TEX_RED_BUTTON_HOVER,
+            texture_pressed=TEX_RED_BUTTON_PRESS,
+        )
         physics_button.center_x = 400
         physics_button.center_y = 330
         physics_button.on_click = self.change_to_game_physics
         self.manager.add(physics_button)
         
         #NOTE: HISTORY OR PROGRAMMING BUTTON
-        his_or_pro_button = arcade.gui.UIFlatButton(text="History/Programming", width=200, height=60)
+        his_or_pro_button = UITextureButton(
+            text="HISTORY/PROGRAMMING",
+            width=200,
+            texture=TEX_RED_BUTTON_NORMAL,
+            texture_hovered=TEX_RED_BUTTON_HOVER,
+            texture_pressed=TEX_RED_BUTTON_PRESS,
+        )
         his_or_pro_button.center_x = 680
         his_or_pro_button.center_y = 330
         his_or_pro_button.on_click = self.change_to_game_history_or_programming
