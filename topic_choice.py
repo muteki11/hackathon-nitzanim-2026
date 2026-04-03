@@ -8,6 +8,15 @@ class Topic_choice(arcade.View):
         self.manager = arcade.gui.UIManager()
         self.manager.enable()
         
+        
+        #NOTE: BACK BUTTON
+        back_button = arcade.gui.UIFlatButton(text="Back", width=200, height=60)
+        back_button.center_x = 120
+        back_button.center_y = 100
+        back_button.on_click = self.change_to_menu
+        self.manager.add(back_button)
+        
+
         #NOTE: MATH BUTTON  
         math_button = arcade.gui.UIFlatButton(text="Mathematics", width=200, height=60)
         math_button.center_x = 120
@@ -36,6 +45,12 @@ class Topic_choice(arcade.View):
     def on_draw(self):
         self.manager.draw()
      
+
+
+    def change_to_menu(self, event):
+        #TODO: change to the main_menu window once possible 
+        print("changed to menu")
+
 
     def change_to_game_history_or_programming(self, event):
         #TODO: change to the game window once possible 
