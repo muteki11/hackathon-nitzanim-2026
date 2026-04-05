@@ -3,7 +3,6 @@ import arcade.gui
 from arcade.gui import UITextureButton
 from constants import *
 from Game_Win import GameView
-from Menu_Win import MenuView
 
 
 class Topic_choice(arcade.View):
@@ -86,6 +85,7 @@ class Topic_choice(arcade.View):
 
 
     def change_to_menu(self, event):
+        from Menu_Win import MenuView
         self.window.show_view(MenuView())
 
 
