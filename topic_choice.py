@@ -2,6 +2,7 @@ import arcade
 import arcade.gui
 from arcade.gui import UITextureButton
 from constants import *
+from Game_Win import GameView
 
 
 class Topic_choice(arcade.View):
@@ -84,22 +85,22 @@ class Topic_choice(arcade.View):
 
 
     def change_to_menu(self, event):
-        #TODO: change to the main_menu window once possible 
-        print("changed to menu")
+        from Menu_Win import MenuView
+        self.window.show_view(MenuView())
 
 
     def change_to_game_history_or_programming(self, event):
-        #TODO: change to the game window once possible 
-        print("changed to game history/programming")
+        #TODO: change to the game window with right topic 
+        self.window.show_view(GameView())
     
 
     def change_to_game_math(self, event):
-        #TODO: change to the game window once possible 
-        print("changed to game math")
+        #TODO: change to the game window with right topic 
+        self.window.show_view(GameView())
     
     def change_to_game_physics(self, event):
-        #TODO: change to the game window once possible 
-        print("changed to game physics")
+        #TODO: change to the game window with right topic 
+        self.window.show_view(GameView())
 
 
 

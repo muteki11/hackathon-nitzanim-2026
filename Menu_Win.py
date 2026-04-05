@@ -46,8 +46,10 @@ class MenuView(arcade.View):
                 b.action()
 
     def start_game(self):
-        game_view = GameView()
-        self.window.show_view(game_view)
+        from topic_choice import Topic_choice
+        topic_choice_view = Topic_choice()
+        topic_choice_view.setup() 
+        self.window.show_view(topic_choice_view)
 
     def open_settings(self):
         pass
