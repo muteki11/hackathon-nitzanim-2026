@@ -72,10 +72,3 @@ def main():
     window.show_view(game)
     arcade.run()
 
-if __name__ == "__main__":
-<<<<<<< HEAD
-    main()
-=======
-    game = ZTypeGame()
-    arcade.run()
->>>>>>> topic_win
