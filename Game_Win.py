@@ -1,11 +1,7 @@
 import arcade
 import random
+from constants import *
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
-SCREEN_TITLE = "Python Z-Type Clone"
-
-WORD_BANK = ["python", "ARCADE", "CODING", "GAMEDEV", "COMPUTER", "ALGORITHM", "CYBER"]
 
 class GameView(arcade.View):
     def __init__(self):
@@ -77,4 +73,9 @@ def main():
     arcade.run()
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     main()
+=======
+    game = ZTypeGame()
+    arcade.run()
+>>>>>>> topic_win
