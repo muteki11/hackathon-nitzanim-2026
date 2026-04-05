@@ -66,9 +66,19 @@ class Topic_choice(arcade.View):
  
     
     def setup(self):
-        pass
+        self.background = arcade.load_texture(STARS_IMAGE_PATH)
+
 
     def on_draw(self):
+        self.clear() 
+
+        arcade.draw_texture_rect(
+            texture=self.background, 
+            #rect=arcade.Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+            rect=arcade.Rect(left=0,bottom=0,right=0,top=0,width=SCREEN_WIDTH,height=SCREEN_HEIGHT,x=SCREEN_WIDTH / 2, y=SCREEN_HEIGHT / 2)
+        )
+        #arcade.draw_texture_rectangle()
+
         self.manager.draw()
      
 

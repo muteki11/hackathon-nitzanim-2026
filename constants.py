@@ -1,6 +1,13 @@
 import arcade
+import platform
 
-#STARS = arcade.load_texture("resources/assets/images/backgrounds/stars.png")
+if platform.system() == "Windows":
+    STARS_IMAGE_PATH = r"images\stars.jpg"
+
+
+elif platform.system() == "Linux":
+    STARS_IMAGE_PATH = "images/stars.jpg"
+
 
 TEX_RED_BUTTON_NORMAL = arcade.load_texture(":resources:gui_basic_assets/button/red_normal.png")
 TEX_RED_BUTTON_HOVER = arcade.load_texture(":resources:gui_basic_assets/button/red_hover.png")
