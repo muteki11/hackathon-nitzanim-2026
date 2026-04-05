@@ -65,10 +65,5 @@ class GameView(arcade.View):
                         self.active_enemy["text_obj"].text = self.active_enemy["remaining"]
                         break
 
-def main():
-    window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-    game = GameView()
-    game.spawn_word()
-    window.show_view(game)
-    arcade.run()
+
 
