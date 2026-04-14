@@ -91,16 +91,32 @@ class Topic_choice(arcade.View):
 
     def change_to_game_history_or_programming(self, event):
         #TODO: change to the game window with right topic 
-        self.window.show_view(GameView())
+            game = GameView()
+            game.setup()
+            self.window.show_view(game)
     
 
     def change_to_game_math(self, event):
         #TODO: change to the game window with right topic 
-        self.window.show_view(GameView())
+        game = GameView()
+        game.setup()
+        self.window.show_view(game)
+ 
+
+
+
+        #self.window.show_view(GameView())
     
     def change_to_game_physics(self, event):
         #TODO: change to the game window with right topic 
-        self.window.show_view(GameView())
+        game = GameView()
+        game.setup()
+        self.window.show_view(game)
+ 
+
+
+
+        #self.window.show_view(GameView())
 
 
 
