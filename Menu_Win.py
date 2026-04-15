@@ -86,7 +86,7 @@ class MenuView(arcade.View):
         if self.background:
             arcade.draw_texture_rect(self.background, self.window.rect)
 
-        arcade.draw_text("Bagrut Type", 400, 500, arcade.color.WHITE, 40, anchor_x="center",font_name="grandover")
+        arcade.draw_text("Bagrut Type", 400, 500, arcade.color.WHITE, 40, anchor_x="center",font_name="algerian")
 
         self.manager.draw()
 
