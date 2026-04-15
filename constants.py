@@ -16,7 +16,7 @@ TEX_RED_BUTTON_PRESS = arcade.load_texture(":resources:gui_basic_assets/button/r
 #NOTE: screen constants
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-SCREEN_TITLE = "Learning Stars"
+SCREEN_TITLE = "Bagrut Type"
 
 #NOTE: input bar height
 INPUT_BAR_H = 80
@@ -32,7 +32,7 @@ SPEED_PER_LVL  = 3
 
 #NOTE: questions and answers bank
 
-QA_BANK = [
+PHYSICS_BANK = [
     # ── PHYSICS ───────────────────────────────────────────────────────────────
     {"q": "What force pulls objects toward the ground?",                     "a": "gravity",       "cat": "Physics"},
     {"q": "What is the basic unit of matter?",                               "a": "atom",          "cat": "Physics"},
@@ -46,6 +46,30 @@ QA_BANK = [
 ]
 
 
+MATH_BANK = [
+    # ── MATH ──────────────────────────────────────────────────────────────────
+    {"q": "What is 7 times 8?",                                              "a": "56",            "cat": "Math"},
+    {"q": "What is the square root of 144?",                                 "a": "12",            "cat": "Math"},
+    {"q": "What is 15 percent of 200?",                                      "a": "30",            "cat": "Math"},
+    {"q": "How many degrees are in a triangle?",                             "a": "180",           "cat": "Math"},
+    {"q": "How many degrees are in a full circle?",                          "a": "360",           "cat": "Math"},
+    {"q": "What is the value of pi rounded to 2 decimal places?",           "a": "3.14",          "cat": "Math"},
+    {"q": "What is 12 squared?",                                             "a": "144",           "cat": "Math"},
+]
+
+HISTORY_BANK = [
+    {"q": "In what year did World War II end?",                              "a": "1945",          "cat": "History"},
+    {"q": "In what year did World War I begin?",                             "a": "1914",          "cat": "History"},
+    {"q": "Who was the first man to walk on the Moon?",                      "a": "neil armstrong","cat": "History"},
+    {"q": "In what year did the Berlin Wall fall?",                          "a": "1989",          "cat": "History"},
+    {"q": "What country dropped the atomic bomb on Hiroshima?",              "a": "usa",           "cat": "History"},
+    {"q": "Who was the leader of Nazi Germany?",                             "a": "hitler",        "cat": "History"},
+    {"q": "What was the name of the ship that sank in 1912?",                "a": "titanic",       "cat": "History"},
+    {"q": "What year did the French Revolution begin?",                      "a": "1789",          "cat": "History"},
+    {"q": "Who invented the telephone?",                                     "a": "bell",          "cat": "History"},
+    {"q": "Who invented the light bulb?",                                    "a": "edison",        "cat": "History"},
+    {"q": "What empire built the Colosseum?",                                "a": "roman",         "cat": "History"},
+]
 
 
 
@@ -66,6 +90,7 @@ CAT_COLORS    = {
     "History":  (255, 210,  80, 255),
     "CS":       (120, 255, 160, 255),
 }
+
 
 
 

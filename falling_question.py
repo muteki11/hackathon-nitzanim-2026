@@ -73,3 +73,4 @@ class FallingQuestion:
     @property
     def reached_bottom(self):
         return self.y < INPUT_BAR_H + 12
+

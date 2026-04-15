@@ -4,8 +4,9 @@ from constants import *
 from falling_question import FallingQuestion, draw_rect_f
 import time
 
-def _color_alpha(c, a):
-    return (c[0], c[1], c[2], a)
+
+def _color_alpha(color, alpha):
+    return (color[0], color[1], color[2], alpha)
 
 class GameView(arcade.View):
     def __init__(self):
@@ -16,28 +17,28 @@ class GameView(arcade.View):
         self.spawn_timer = 0
         self.score_text = arcade.Text(f"Score: {self.score}", 10, 20, arcade.color.GREEN, 14)
 
-    def setup(self):
+    def setup(self, category_bank):
         arcade.set_background_color(BG)
-        self.state = "menu"
+        self.state = "playing"
         self.score = 0
         self.lives = MAX_LIVES
         self.level = 1
         self.questions_answered = 0
 
-        self.pool       = QA_BANK.copy()
+        self.pool = category_bank.copy()
         random.shuffle(self.pool)
-        self.pool_idx   = 0
+        self.pool_index = 0
 
-        self.active_qs   = []
-        self.particles   = []
-        self.flashes     = []
-        self.targeted_q  = None
+        self.active_questions = []
+        self.particles = []
+        self.flashes = []
+        self.targeted_question = None
 
-        self.input_text     = ""
-        self.spawn_timer    = 0.0
+        self.input_text = ""
+        self.spawn_timer = 0.0
         self.spawn_interval = SPAWN_INTERVAL
-        self.wrong_flash    = 0.0
-        self.correct_flash  = 0.0
+        self.wrong_flash_timer = 0.0
+        self.correct_flash_timer = 0.0
 
         self.stars = [
             (random.randint(0, SCREEN_WIDTH),
@@ -48,28 +49,28 @@ class GameView(arcade.View):
 
         #NOTE: spawn 
         
-    def _next_qa(self):
-        qa = self.pool[self.pool_idx % len(self.pool)]
-        self.pool_idx += 1
-        if self.pool_idx % len(self.pool) == 0:
+    def _get_next_question(self):
+        question_data = self.pool[self.pool_index % len(self.pool)]
+        self.pool_index += 1
+        if self.pool_index % len(self.pool) == 0:
             random.shuffle(self.pool)
-        return qa
+        return question_data
 
     def _spawn(self):
-        if len(self.active_qs) >= MAX_ACTIVE:
+        if len(self.active_questions) >= MAX_ACTIVE:
             return
-        qa       = self._next_qa()
-        occupied = [q.x for q in self.active_qs]
-        x = random.randint(130, SCREEN_WIDTH - 130)
+        question_data = self._get_next_question()
+        occupied_x_positions = [question.x for question in self.active_questions]
+        new_x = random.randint(130, SCREEN_WIDTH - 130)
         for _ in range(25):
-            x = random.randint(130, SCREEN_WIDTH - 130)
-            if all(abs(x - ox) > 170 for ox in occupied):
+            new_x = random.randint(130, SCREEN_WIDTH - 130)
+            if all(abs(new_x - occupied_x) > 170 for occupied_x in occupied_x_positions):
                 break
         speed = INITIAL_SPEED + (self.level - 1) * SPEED_PER_LVL
-        self.active_qs.append(FallingQuestion(qa, x, speed))
+        self.active_questions.append(FallingQuestion(question_data, new_x, speed))
 
 
-    def on_key_press(self, key, mods):
+    def on_key_press(self, key, modifiers):
         if self.state in ("menu", "game_over"):
             self.setup()
             self.state = "playing"
@@ -80,9 +81,7 @@ class GameView(arcade.View):
         elif key in (arcade.key.ENTER, arcade.key.RETURN):
             self._submit()
         elif key == arcade.key.ESCAPE:
-            self.state = "menu"
-
-
+            arcade.exit()
 
 
     def on_text(self, text):
@@ -96,71 +95,75 @@ class GameView(arcade.View):
 
 
     def _update_target(self):
-        typed = self.input_text.strip().lower()
-        if not typed:
-            self.targeted_q = None
+        typed_text = self.input_text.strip().lower()
+        if not typed_text:
+            self.targeted_question = None
             return
-        if self.targeted_q and self.targeted_q.answer.startswith(typed):
+        if self.targeted_question and self.targeted_question.answer.startswith(typed_text):
             return
-        candidates = [q for q in self.active_qs if q.answer.startswith(typed)]
-        self.targeted_q = min(candidates, key=lambda q: q.y) if candidates else None
+        candidates = [q for q in self.active_questions if q.answer.startswith(typed_text)]
+        self.targeted_question = min(candidates, key=lambda q: q.y) if candidates else None
 
     
 
     def _submit(self):
-            typed = self.input_text.strip().lower()
+            typed_text = self.input_text.strip().lower()
             self.input_text = ""
-            if not typed:
+            if not typed_text:
                 return
-            target = self.targeted_q
+            target = self.targeted_question
             if target is None:
-                matches = [q for q in self.active_qs if q.answer == typed]
-                target  = matches[0] if matches else None
-            if target and target.answer == typed:
-                self._correct(target)
+                matches = [q for q in self.active_questions if q.answer == typed_text]
+                target = matches[0] if matches else None
+            if target and target.answer == typed_text:
+                self._handle_correct_answer(target)
             else:
-                self._wrong()
-            self.targeted_q = None
+                self._handle_wrong_answer()
+            self.targeted_question = None
 
 
-    def _correct(self, q):
-        pts = 100 + self.level * 10
-        self.score += pts
+    def _handle_correct_answer(self, question):
+        points = 100 + self.level * 10
+        self.score += points
         self.questions_answered += 1
-        self.active_qs.remove(q)
+        self.active_questions.remove(question)
+        self.correct_flash_timer = 0.4
 
 
-
-    def _wrong(self):
-        self.wrong_flash = 0.4
-
+    def _handle_wrong_answer(self):
+        self.wrong_flash_timer = 0.4
+        #self.flashes.append(
+        #    FlashMessage("Wrong answer!", WRONG_CLR, SCREEN_W // 2, SCREEN_H // 2 - 50))
 
     
 
 
 
-    def on_update(self, dt):
+    def on_update(self, delta_time):
         if self.state != "playing":
             return
-        dt = min(dt, 0.05)
+        delta_time = min(delta_time, 0.05)
 
-        self.spawn_timer += dt
+        self.spawn_timer += delta_time
         if self.spawn_timer >= self.spawn_interval:
             self.spawn_timer = 0.0
             self._spawn()
 
-        for q in self.active_qs[:]:
-            q.update(dt)
-            if q.reached_bottom:
-                self.active_qs.remove(q)
+        for question in self.active_questions[:]:
+            question.update(delta_time)
+            if question.reached_bottom:
+                self.active_questions.remove(question)
                 self.lives -= 1
-                self.wrong_flash = 0.6
+                self.wrong_flash_timer = 0.6
                 if self.lives <= 0:
                     self.state = "game_over"
                     return
 
+        for flash in self.flashes[:]:
+            flash.update(delta_time)
 
-
+        self.wrong_flash_timer = max(0.0, self.wrong_flash_timer - delta_time)
+        self.correct_flash_timer = max(0.0, self.correct_flash_timer - delta_time)
 
 
 
@@ -170,21 +173,20 @@ class GameView(arcade.View):
         self.clear()
         if self.state == "playing":
             self._draw_playing()
-        #elif self.state == "game_over":
-        #    self._draw_game_over()
+
 
 
     def _draw_stars(self):
-        for sx, sy, br in self.stars:
-            b = int(br * 180 + 55)
-            arcade.draw_point(sx, sy, (b, b, min(255, b + 40), 255), 1.5)
+        for star_x, star_y, brightness_ratio in self.stars:
+            color_value = int(brightness_ratio * 180 + 55)
+            arcade.draw_point(star_x, star_y, (color_value, color_value, min(255, color_value + 40), 255), 1.5)
 
     def _draw_grid(self):
-        gc = (20, 35, 70, 60)
+        grid_color = (20, 35, 70, 60)
         for x in range(0, SCREEN_WIDTH, 80):
-            arcade.draw_line(x, INPUT_BAR_H, x, SCREEN_HEIGHT, gc, 1)
+            arcade.draw_line(x, INPUT_BAR_H, x, SCREEN_HEIGHT, grid_color, 1)
         for y in range(INPUT_BAR_H, SCREEN_HEIGHT, 60):
-            arcade.draw_line(0, y, SCREEN_WIDTH, y, gc, 1)
+            arcade.draw_line(0, y, SCREEN_WIDTH, y, grid_color, 1)
 
 
 
@@ -211,19 +213,19 @@ class GameView(arcade.View):
         arcade.draw_text("ANSWER:", 16, INPUT_BAR_H // 2,
                          (100, 140, 200, 255), font_size=13, bold=True,
                          anchor_y="center")
-        cursor  = "_" if int(time.time() * 2) % 2 == 0 else " "
-        t_color = (255, 220, 60, 255) if self.targeted_q else (255, 255, 255, 255)
+        cursor = "_" if int(time.time() * 2) % 2 == 0 else " "
+        text_color = (255, 220, 60, 255) if self.targeted_question else (255, 255, 255, 255)
         arcade.draw_text(self.input_text + cursor, 110, INPUT_BAR_H // 2,
-                         t_color, font_size=18, bold=True, anchor_y="center")
-        if self.targeted_q:
-            hint = self.targeted_q.question
-            if len(hint) > 58:
-                hint = hint[:58] + "..."
-            hint = f"  {self.targeted_q.cat}: {hint}"
-            col  = CAT_COLORS.get(self.targeted_q.cat, (160, 160, 160, 255))
-            #col = (255,0,0,0) 
-            arcade.draw_text(hint, SCREEN_WIDTH - 16, INPUT_BAR_H // 2,
-                             _color_alpha(col, 180), font_size=10,
+                         text_color, font_size=18, bold=True, anchor_y="center")
+        if self.targeted_question:
+            hint_text = self.targeted_question.question
+            if len(hint_text) > 58:
+                hint_text = hint_text[:58] + "..."
+            hint_text = f"  {self.targeted_question.cat}: {hint_text}"
+            category_color = CAT_COLORS.get(self.targeted_question.cat, (160, 160, 160, 255))
+            
+            arcade.draw_text(hint_text, SCREEN_WIDTH - 16, INPUT_BAR_H // 2,
+                             _color_alpha(category_color, 180), font_size=10,
                              anchor_x="right", anchor_y="center")
 
 
@@ -233,36 +235,17 @@ class GameView(arcade.View):
     def _draw_playing(self):
         self._draw_grid()
         self._draw_stars()
-        if self.wrong_flash > 0:
+        if self.wrong_flash_timer > 0:
             draw_rect_f(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2, SCREEN_WIDTH, SCREEN_HEIGHT,
-                        (255, 0, 0, int(self.wrong_flash * 70)))
-        if self.correct_flash > 0:
+                        (255, 0, 0, int(self.wrong_flash_timer * 70)))
+        if self.correct_flash_timer > 0:
             draw_rect_f(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2, SCREEN_WIDTH, SCREEN_HEIGHT,
-                        (0, 255, 100, int(self.correct_flash * 55)))
-        for p in self.particles:
-            p.draw()
-        for q in self.active_qs:
-            q.draw(targeted=(q is self.targeted_q))
-        for f in self.flashes:
-            f.draw()
+                        (0, 255, 100, int(self.correct_flash_timer * 55)))
+        for particle in self.particles:
+            particle.draw()
+        for question in self.active_questions:
+            question.draw(targeted=(question is self.targeted_question))
+        for flash in self.flashes:
+            flash.draw()
         #self._draw_hud()
         self._draw_input_bar()
-
-
-
-
-
-'''
-if __name__ == "__main__":
-    window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-    game = GameView()
-    game.setup()
-    window.show_view(game) 
-    arcade.run()
-
-
-'''
-
-
-
-
