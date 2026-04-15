@@ -36,7 +36,7 @@ class MenuView(arcade.View):
 
     def on_draw(self):
         self.clear()
-        arcade.draw_text("Stars", 400, 500, arcade.color.WHITE, 40, anchor_x="center")
+        arcade.draw_text("Bagrut Type", 400, 500, arcade.color.WHITE, 40, anchor_x="center")
         for b in self.buttons:
             b.draw()
 
