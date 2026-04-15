@@ -4,9 +4,11 @@ from constants import *
 from falling_question import FallingQuestion, draw_rect_f
 import time
 
-
+'''
 def _color_alpha(color, alpha):
     return (color[0], color[1], color[2], alpha)
+'''
+
 
 class GameView(arcade.View):
     def __init__(self):
@@ -195,9 +197,8 @@ class GameView(arcade.View):
     def _draw_hud(self):
         arcade.draw_text(f"SCORE  {self.score:,}", 16, SCREEN_HEIGHT - 28,
                          SCORE_CLR, font_size=14, bold=True)
-        arcade.draw_text(f"LVL {self.level}", SCREEN_WIDTH // 2, SCREEN_HEIGHT - 28,
-                         (200, 200, 255, 255), font_size=14, bold=True,
-                         anchor_x="center")
+        
+
         hearts = "\u2665 " * self.lives + "\u2661 " * (MAX_LIVES - self.lives)
         arcade.draw_text(hearts.strip(), SCREEN_WIDTH - 16, SCREEN_HEIGHT - 28,
                          LIFE_CLR, font_size=14, bold=True, anchor_x="right")
@@ -217,18 +218,8 @@ class GameView(arcade.View):
         text_color = (255, 220, 60, 255) if self.targeted_question else (255, 255, 255, 255)
         arcade.draw_text(self.input_text + cursor, 110, INPUT_BAR_H // 2,
                          text_color, font_size=18, bold=True, anchor_y="center")
-        if self.targeted_question:
-            hint_text = self.targeted_question.question
-            if len(hint_text) > 58:
-                hint_text = hint_text[:58] + "..."
-            hint_text = f"  {self.targeted_question.cat}: {hint_text}"
-            category_color = CAT_COLORS.get(self.targeted_question.cat, (160, 160, 160, 255))
+        
             
-            arcade.draw_text(hint_text, SCREEN_WIDTH - 16, INPUT_BAR_H // 2,
-                             _color_alpha(category_color, 180), font_size=10,
-                             anchor_x="right", anchor_y="center")
-
-
 
 
 
@@ -247,5 +238,10 @@ class GameView(arcade.View):
             question.draw(targeted=(question is self.targeted_question))
         for flash in self.flashes:
             flash.draw()
-        #self._draw_hud()
+        
+        self._draw_hud()
         self._draw_input_bar()
+
+
+
+
