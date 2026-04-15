@@ -8,7 +8,7 @@ if platform.system() == "Windows":
 
 elif platform.system() == "Linux":
     STARS_IMAGE_PATH = "images/stars.jpg"
-    Menu_Background = "images\MenuBackground.jpg"
+    Menu_Background = "images/MenuBackground.jpg"
 
 
 
