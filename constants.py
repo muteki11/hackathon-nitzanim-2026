@@ -3,10 +3,13 @@ import platform
 
 if platform.system() == "Windows":
     STARS_IMAGE_PATH = r"images\stars.jpg"
+    Menu_Background = r"images\MenuBackground.jpg"
 
 
 elif platform.system() == "Linux":
     STARS_IMAGE_PATH = "images/stars.jpg"
+    Menu_Background = "images\MenuBackground.jpg"
+
 
 
 TEX_RED_BUTTON_NORMAL = arcade.load_texture(":resources:gui_basic_assets/button/red_normal.png")

@@ -9,7 +9,7 @@ def main():
 
     window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     game = MenuView()
-    #game.setup()
+    game.setup()
     window.show_view(game)
     arcade.run()
 

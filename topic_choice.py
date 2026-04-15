@@ -86,7 +86,11 @@ class Topic_choice(arcade.View):
 
     def change_to_menu(self, event):
         from Menu_Win import MenuView
-        self.window.show_view(MenuView())
+        game = MenuView()
+        game.setup()
+        self.window.show_view(game)
+
+
 
 
     def change_to_game_history_or_programming(self, event):
