@@ -1,15 +1,17 @@
 import arcade.gui
 from arcade.gui import UITextureButton
+from unicodedata import category
+
 from constants import*
 
-class endgame_win(arcade.View):
-    def __init__(self,score,lives,category_bank):
+class Endgame_win(arcade.View):
+    def __init__(self):
         super().__init__()
         self.score = 0
         self.lives = 0
         self.category_bank = []
 
-        self.manager = arcade.gui.UIManager
+        self.manager = arcade.gui.UIManager()
         self.manager.enable()
 
         play_again_btn = UITextureButton(
@@ -25,7 +27,7 @@ class endgame_win(arcade.View):
         self.manager.add(play_again_btn)
 
         back_to_topics = UITextureButton(
-            text="Play again",
+            text="Back to menu",
             width=200,
             texture=TEX_RED_BUTTON_NORMAL,
             texture_hovered=TEX_RED_BUTTON_HOVER,
@@ -44,7 +46,7 @@ class endgame_win(arcade.View):
             texture_pressed=TEX_RED_BUTTON_PRESS,
         )
         back_to_menu_btn.center_x = 400
-        back_to_menu_btn.center_y = 120
+        back_to_menu_btn.center_y = 210
         back_to_menu_btn.on_click = self.change_to_menu
         self.manager.add(back_to_menu_btn)
 
@@ -71,10 +73,14 @@ class endgame_win(arcade.View):
         from topic_choice import Topic_choice
         game = Topic_choice()
         game.setup()
-        self.window.shop_view(game)
+        self.window.show_view(game)
 
     def change_to_game(self,event):
         from Game_Win import GameView
-        game = GameView
+        game = GameView()
         game.setup(self.category_bank)
-        self.window.shop_view(game)
+        self.window.show_view(game)
+
+
+
+

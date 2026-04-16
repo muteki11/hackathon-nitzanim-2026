@@ -22,6 +22,7 @@ class GameView(arcade.View):
         self.level = 1
         self.questions_answered = 0
 
+        self.category_play_again = category_bank.copy()
         self.pool = category_bank.copy()
         random.shuffle(self.pool)
         self.pool_index = 0
@@ -131,7 +132,11 @@ class GameView(arcade.View):
     def on_update(self, delta_time):
 
         if self.score >= 30:
-            arcade.exit()
+            from endgame_win import Endgame_win
+            game = Endgame_win()
+            game.setup(score=self.score,lives=self.lives, category_bank=self.category_play_again)
+            self.window.show_view(game)
+
 
         delta_time = min(delta_time, 0.05)
 
