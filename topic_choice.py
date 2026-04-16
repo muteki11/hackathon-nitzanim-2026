@@ -54,7 +54,7 @@ class Topic_choice(arcade.View):
         
         #NOTE: HISTORY OR PROGRAMMING BUTTON
         his_or_pro_button = UITextureButton(
-            text="HISTORY/PROGRAMMING",
+            text="HISTORY",
             width=200,
             texture=TEX_RED_BUTTON_NORMAL,
             texture_hovered=TEX_RED_BUTTON_HOVER,

@@ -27,7 +27,7 @@ class Endgame_win(arcade.View):
         self.manager.add(play_again_btn)
 
         back_to_topics = UITextureButton(
-            text="Back to menu",
+            text="Back to topics",
             width=200,
             texture=TEX_RED_BUTTON_NORMAL,
             texture_hovered=TEX_RED_BUTTON_HOVER,
@@ -37,7 +37,7 @@ class Endgame_win(arcade.View):
         back_to_topics.center_y = 280
         back_to_topics.on_click = self.change_to_topics
         self.manager.add(back_to_topics)
-#d
+
         back_to_menu_btn = UITextureButton(
             text="Back to Menu",
             width=200,

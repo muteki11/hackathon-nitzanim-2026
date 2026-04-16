@@ -3,14 +3,14 @@ import random
 
 
 
-def _color4(c):
+def color4(c):
     return (c[0], c[1], c[2], 255) if len(c) == 3 else c
 
 def draw_rect_f(cx, cy, w, h, color):
-    arcade.draw_rect_filled(arcade.XYWH(cx, cy, w, h), _color4(color))
+    arcade.draw_rect_filled(arcade.XYWH(cx, cy, w, h), color4(color))
 
 def draw_rect_o(cx, cy, w, h, color, border=1):
-    arcade.draw_rect_outline(arcade.XYWH(cx, cy, w, h), _color4(color), border)
+    arcade.draw_rect_outline(arcade.XYWH(cx, cy, w, h), color4(color), border)
 
 
 class FallingQuestion:
@@ -31,7 +31,7 @@ class FallingQuestion:
             self.shake = 0.25
         self.shake = max(0.0, self.shake - dt * 4)
 
-    def _wrap(self, text, max_ch=44):
+    def wrap(self, text, max_ch=44):
         lines, cur = [], ""
         for word in text.split():
             test = (cur + " " + word).strip()
@@ -59,7 +59,7 @@ class FallingQuestion:
                          (r, g, b, 220), font_size=9, bold=True,
                          anchor_x="center", anchor_y="center")
 
-        lines = self._wrap(self.question)
+        lines = self.wrap(self.question)
         qcol  = (255, 230, 60, 255) if targeted else (180, 220, 255, 255)
         for i, line in enumerate(lines):
             arcade.draw_text(line, sx, sy - i * 17,
