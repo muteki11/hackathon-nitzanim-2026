@@ -4,10 +4,7 @@ from constants import *
 from falling_question import FallingQuestion, draw_rect_f
 import time
 
-'''
-def _color_alpha(color, alpha):
-    return (color[0], color[1], color[2], alpha)
-'''
+
 
 
 class GameView(arcade.View):

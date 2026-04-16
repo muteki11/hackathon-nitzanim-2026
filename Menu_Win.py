@@ -5,30 +5,6 @@ from topic_choice import Topic_choice
 from constants import *
 
 
-class TextButton:
-    def __init__(self, x, y, width, height, text, color, action):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.text = text
-        self.color = color
-        self.action = action
-
-    def draw(self):
-        arcade.draw_lrbt_rectangle_filled(
-            self.x - self.width / 2,
-            self.x + self.width / 2,
-            self.y - self.height / 2,
-            self.y + self.height / 2,
-            self.color
-        )
-        arcade.draw_text(self.text, self.x, self.y, arcade.color.WHITE, 14, anchor_x="center", anchor_y="center")
-
-    def is_clicked(self, x, y):
-        return (self.x - self.width/2 < x < self.x + self.width/2 and
-                self.y - self.height/2 < y < self.y + self.height/2)
-
 
 class MenuView(arcade.View):
     def __init__(self):
