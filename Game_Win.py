@@ -5,8 +5,6 @@ from falling_question import FallingQuestion, draw_rect_f
 import time
 
 
-
-
 class GameView(arcade.View):
     def __init__(self):
         super().__init__()
@@ -29,7 +27,6 @@ class GameView(arcade.View):
         self.pool_index = 0
 
         self.active_questions = []
-        self.particles = []
         self.flashes = []
         self.targeted_question = None
 
@@ -70,10 +67,6 @@ class GameView(arcade.View):
 
 
     def on_key_press(self, key, modifiers):
-        if self.state in ("menu", "game_over"):
-            self.setup()
-            self.state = "playing"
-            return
         if key == arcade.key.BACKSPACE:
             self.input_text = self.input_text[:-1]
             self._update_target()
@@ -122,7 +115,7 @@ class GameView(arcade.View):
 
 
     def _handle_correct_answer(self, question):
-        points = 100 + self.level * 10
+        points = 10
         self.score += points
         self.questions_answered += 1
         self.active_questions.remove(question)
@@ -131,16 +124,15 @@ class GameView(arcade.View):
 
     def _handle_wrong_answer(self):
         self.wrong_flash_timer = 0.4
-        #self.flashes.append(
-        #    FlashMessage("Wrong answer!", WRONG_CLR, SCREEN_W // 2, SCREEN_H // 2 - 50))
 
-    
 
 
 
     def on_update(self, delta_time):
-        if self.state != "playing":
-            return
+
+        if self.score >= 30:
+            arcade.exit()
+
         delta_time = min(delta_time, 0.05)
 
         self.spawn_timer += delta_time
@@ -148,17 +140,18 @@ class GameView(arcade.View):
             self.spawn_timer = 0.0
             self._spawn()
 
-        for question in self.active_questions[:]:
+        for question in self.active_questions:
             question.update(delta_time)
             if question.reached_bottom:
                 self.active_questions.remove(question)
                 self.lives -= 1
                 self.wrong_flash_timer = 0.6
                 if self.lives <= 0:
-                    self.state = "game_over"
+                    #TODO: change to game over screen
+                    arcade.exit()
                     return
 
-        for flash in self.flashes[:]:
+        for flash in self.flashes:
             flash.update(delta_time)
 
         self.wrong_flash_timer = max(0.0, self.wrong_flash_timer - delta_time)
@@ -229,8 +222,8 @@ class GameView(arcade.View):
         if self.correct_flash_timer > 0:
             draw_rect_f(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2, SCREEN_WIDTH, SCREEN_HEIGHT,
                         (0, 255, 100, int(self.correct_flash_timer * 55)))
-        for particle in self.particles:
-            particle.draw()
+
+
         for question in self.active_questions:
             question.draw(targeted=(question is self.targeted_question))
         for flash in self.flashes:
