@@ -3,7 +3,7 @@ import arcade
 from arcade.gui import UITextureButton
 from topic_choice import Topic_choice
 from constants import *
-
+from teacher import Teacher
 
 
 class MenuView(arcade.View):
@@ -26,7 +26,7 @@ class MenuView(arcade.View):
         play_btn.on_click = self.change_to_topic
 
         setting_btn = UITextureButton(
-            text="Settings",
+            text="Teacher Settings",
             width=200,
             texture=TEX_RED_BUTTON_NORMAL,
             texture_hovered=TEX_RED_BUTTON_HOVER,
@@ -79,7 +79,8 @@ class MenuView(arcade.View):
         self.window.show_view(game)
 
     def change_to_settings(self, event):
-        return
+        game = Teacher()
+        self.window.show_view(game)
 
     def exit(self, event):
         arcade.exit()
